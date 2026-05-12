@@ -56,6 +56,12 @@ def main():
             while logged_in:
                 print(f"\n---- Account Menu: {username} ----")
 
+                print("Your Accounts:")
+                for i, acc in enumerate(Accounts):
+                    acc_type = type(acc).__name__
+
+                    print(f" [{i}] {acc_type} (ID: {acc.Acc_num}) - Balance: ${acc.Get_Bal():.2f}")
+
                 funct = input("What would you like to do next (Withdraw, Deposit, Transfer, or Logout): ")
 
 
