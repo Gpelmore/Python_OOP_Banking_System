@@ -1,6 +1,7 @@
 class Account_Info:
-    def __init__(self):
+    def __init__(self, Acc_num):
         self.Bal_info = 0
+        self.Acc_num = Acc_num
         pass
 
     def Deposit(self, Amount):
