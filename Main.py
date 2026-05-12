@@ -55,11 +55,7 @@ def main():
 
                 while logged_in:
 
-                    session = my_bank.Get_Session(token)
-
-                    if not session:
-                        logged_in = False
-                        break
+                    
 
                     Accounts = session["Accounts"]
 
@@ -73,6 +69,11 @@ def main():
 
                     funct = input("What would you like to do next (Withdraw, Deposit, Transfer, or Logout): ")
 
+                    session = my_bank.Get_Session(token)
+
+                    if not session:
+                        logged_in = False
+                        break
 
                     if funct == "Withdraw":
                         try:
