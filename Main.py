@@ -2,47 +2,97 @@ from Bank_class import Bank
 from Account_Classes import Checking, Savings
 def main():
     my_bank = Bank()
-
-    dummy_acc = [Checking(0), Savings(1), Savings(2), Checking(3), Savings(4)]
-
-    my_bank.Register("Admin", "password123", dummy_acc)
-
-    token = my_bank.Login("Admin", "password123")
-
-    session = my_bank.Get_Session(token)
-
-
-    if not session:
-        print("Session failed.")
-        return
-    
-    Accounts = session["Accounts"]
-
-
-
+    next_account_num = 0
 
     while True:
-        funct = input("What would you like to do next (Withdraw, Deposit, or Transfer): ")
+        print("\n========= Welcome to Python Bank =========")
+        print("1. Register a new user")
+        print("2. Login")
+        print("3. Exit")
 
-        if funct == "Withdraw":
-            Money = float(input("how much withdraw: "))
-            print(Accounts[0].Withdraw(Money))
-        
-        elif funct == "Deposit":
-            Money = float(input("how much deposit: "))
-            print(Accounts[0].Deposit(Money))
-        
-        elif funct == "Transfer":
-            Money = float(input("how much transfer: "))
-            Acc = int(input("Which account tranfer: "))
-            if Acc < 5:
-                print("you have", Accounts[0].Move_money(Money, Accounts[Acc]), "remaining...")
-            else:
-                print("invalid")
+        start_menu = input("Select an option(1, 2, or 3): ")
 
-        else:
-            print("Invalid option. Try again!")
+        if start_menu == "1":
+            print("\n---- Registration ----")
+            
+            username = input("Enter a username: ")
+            password = input("Enter a password: ")
+
+            new_accounts = [Checking(next_account_num), Savings(next_account_num + 1)]
+            next_account_num += 2
+
+            my_bank.Register(username, password, new_accounts)
+
+        elif start_menu == "2":
+            print("\n---- Login ----")
+            print("(Type 'cancel' at any time to return to the main menu)")
+            
+            token = None
+
+            while token is None:
+                username = input("Username: ").strip()
+                if username.lower() == 'cancel':
+                    break
+            
+                password = input("Password: ").strip()
+                if password.lower() == 'cancel':
+                    break
+
+
+                token = my_bank.Login(username, password)
+
+
+                if not token:
+                    print("Please try again.")
+                    print("-" * 30)
+
+
+            if token:
+                session = my_bank.Get_Session(token)
+                Accounts = session["Accounts"]
+
+
+            logged_in = True
+            while logged_in:
+                print(f"\n---- Account Menu: {username} ----")
+
+                funct = input("What would you like to do next (Withdraw, Deposit, Transfer, or Logout): ")
+
+
+                if funct == "Withdraw":
+                    try:
+                        Money = float(input("how much withdraw: "))
+                        print("New balance: ", Accounts[0].Withdraw(Money))
+                    except ValueError as e:
+                        print(f"Transaction failed: {e}")
+
+
+                elif funct == "Deposit":
+                    try:
+                        Money = float(input("how much deposit: "))
+                        print("New balance: ", Accounts[0].Deposit(Money))
+                    except ValueError as e:
+                        print(f"Transaction failed: {e}")
+                
+
+                elif funct == "Transfer":
+                    try:
+                        Money = float(input("Enter how much you would like to transfer: "))
+                        Acc = int(input("Enter which account you would like to tranfer to: "))
+                        if Acc < 5:
+                            print("you have", Accounts[0].Move_money(Money, Accounts[Acc]), "remaining...")
+                        else:
+                            print("Invalid account number.")
+                    except ValueError as e:
+                        print(f"Transaction failed: {e}")
+
+                elif funct == "Logout":
+                    my_bank.Logout(token)
+                    logged_in = False
+
+
+                else:
+                    print("Invalid option. Try again!")
 
 if __name__ == "__main__":
     main()
-

@@ -79,7 +79,7 @@ class Bank:
 
         if not user:
             self.limiter.record_att(username)
-            print("Invalid username or password")
+            print("\nInvalid username or password.")
             return None
         
         hashed, _ = hash_PW(password ,user["salt"])
