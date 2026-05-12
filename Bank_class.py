@@ -8,7 +8,7 @@ from collections import defaultdict
 def hash_PW(password: str, salt: str = None):
     if salt is None:
         salt = secrets.token_hex(16)
-        hashed = hashlib.sha256(f"{salt}{password}". encode()).hexdigest()
+    hashed = hashlib.sha256(f"{salt}{password}". encode()).hexdigest()
     return hashed, salt
 
 
@@ -63,10 +63,10 @@ class Bank:
             return False
         hashed, salt = hash_PW(password)
 
-        self.users = {
+        self.users[username] = {
             "hash":     hashed,
             "salt":     salt,
-            "accounts":     accounts
+            "Accounts":     accounts
         }
 
         print(f"User {username} created successfully.")
@@ -84,7 +84,7 @@ class Bank:
         
         hashed, _ = hash_PW(password ,user["salt"])
         if hashed != user["hash"]:
-            self. limiter.record_att(username)
+            self.limiter.record_att(username)
             remaining = Rate_Lim.MAX_ATT - len(self.limiter.attempts[username])
             print(f"Invalid username or password, {remaining} attempt(s) remaining.")
             return None
@@ -93,9 +93,9 @@ class Bank:
 
         token = generate_token()
 
-        self.sessions = {
+        self.sessions[token] = {
             "Username": username,
-            "Acocunts": user["Accounts"],
+            "Accounts": user["Accounts"],
             "Expires at": time.time() + self.SESSION_DURATION
         }
         

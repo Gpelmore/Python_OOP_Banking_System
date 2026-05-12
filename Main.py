@@ -1,6 +1,24 @@
 from Bank_class import Bank
-from Account_Classes import Account_Info
+from Account_Classes import Checking, Savings
 def main():
+    my_bank = Bank()
+
+    dummy_acc = [Checking(0), Savings(1), Savings(2), Checking(3), Savings(4)]
+
+    my_bank.Register("Admin", "password123", dummy_acc)
+
+    token = my_bank.Login("Admin", "password123")
+
+    session = my_bank.Get_Session(token)
+
+
+    if not session:
+        print("Session failed.")
+        return
+    
+    Accounts = session["Accounts"]
+
+
 
 
     while True:
@@ -25,6 +43,6 @@ def main():
         else:
             print("Invalid option. Try again!")
 
-        
-main()
+if __name__ == "__main__":
+    main()
 
