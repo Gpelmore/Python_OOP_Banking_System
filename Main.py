@@ -31,13 +31,15 @@ def main():
             print(Accounts[0].Deposit(Money))
         
         elif funct == "Transfer":
-            Money = float(input("how much transfer : "))
+            Money = float(input("how much transfer: "))
             Acc = int(input("Which account tranfer: "))
             if Acc < 5:
-                print(Accounts[0].Move_money(Money, Accounts[Acc]))
+                print("you have", Accounts[0].Move_money(Money, Accounts[Acc]), "remaining...")
             else:
                 print("invalid")
-
+#add cant withdraw cuz it will go (-)
+#add cant transfer into the same account
+#add 
             
 
         else:
