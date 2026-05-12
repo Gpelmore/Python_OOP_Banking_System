@@ -5,22 +5,24 @@ class Account_Info:
         pass
 
     def Deposit(self, Amount):
-        if Amount <= 0
-            raise("Deposit amount must be positive!")
+        if Amount <= 0:
+            raise ValueError("Deposit amount must be positive!")
         current_balance = self.Bal_info
         self.Bal_info = current_balance + Amount
         return self.Bal_info
 
     def Withdraw(self, Amount):
         if Amount <= 0:
-            raise("Withdraw amount must be positive!")
+            raise ValueError("Withdraw amount must be positive!")
         if Amount > self.Bal_info:
-            raise("Insufficient funds!")
+            raise ValueError("Insufficient funds!")
         current_balance = self.Bal_info
         self.Bal_info = current_balance - Amount
         return self.Bal_info
 
     def Move_money(self, Amount, Account_Target):
+        if Account_Target == self.Acc_num:
+            raise ValueError("Cannot move money into the same account!")
         self.Withdraw(Amount)
         Account_Target.Deposit(Amount)
         return self.Bal_info
