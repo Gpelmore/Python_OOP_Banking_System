@@ -15,12 +15,7 @@ def hash_PW(password: str, salt: str = None):
 def generate_token():
     return secrets.token_hex(32)
 
-
-class Acc_info:
-    def __init__(self):
-        self.users = {}
-        pass
-
+#=========================================================================================================
 
 class Rate_Lim:
     MAX_ATT = 5
@@ -47,7 +42,7 @@ class Rate_Lim:
 
         self.attempts[username] = []
 
-
+#=============================================================================================================================
 
 class Bank:
     SESSION_DURATION = 600
