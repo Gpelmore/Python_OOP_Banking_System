@@ -50,7 +50,7 @@ class Rate_Lim:
 
 
 class Bank:
-    SESSION_DURATION = 300
+    SESSION_DURATION = 30
 
     def __init__(self):
         self.users = {}
