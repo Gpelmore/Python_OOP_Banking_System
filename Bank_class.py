@@ -50,7 +50,7 @@ class Rate_Lim:
 
 
 class Bank:
-    SESSION_DURATION = 30
+    SESSION_DURATION = 600
 
     def __init__(self):
         self.users = {}
@@ -109,7 +109,7 @@ class Bank:
             return None
         if time.time() > session["Expires at"]:
             del self.sessions[token]
-            print("Session expired. Please log in again.")
+            print("Session expired. Please log in again.\n\n")
             return None
         return session
     
@@ -117,3 +117,8 @@ class Bank:
         if token in self.sessions:
             del self.sessions[token]
             print("Logged out successfully.")
+
+    def Sesh_Refresh(self, token):
+        session = self.sessions.get(token)
+        if session:
+            session["Expires at"] = time.time() + self.SESSION_DURATION

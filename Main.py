@@ -55,7 +55,7 @@ def main():
 
                 while logged_in:
 
-                    
+                    session = my_bank.Get_Session(token)
 
                     Accounts = session["Accounts"]
 
@@ -74,6 +74,10 @@ def main():
                     if not session:
                         logged_in = False
                         break
+                    
+                    my_bank.Sesh_Refresh(token)
+                    
+                    Accounts = session["Accounts"]
 
                     if funct == "Withdraw":
                         try:
@@ -95,7 +99,7 @@ def main():
                         try:
                             Money = float(input("Enter how much you would like to transfer: "))
                             Acc = int(input("Enter which account you would like to tranfer to: "))
-                            if Acc < 5:
+                            if Acc < len(Accounts):
                                 print("you have", Accounts[0].Move_money(Money, Accounts[Acc]), "remaining...")
                             else:
                                 print("Invalid account number.")
