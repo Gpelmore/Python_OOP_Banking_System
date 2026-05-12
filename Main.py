@@ -1,32 +1,48 @@
 from Account_Classes import Account_Info
 def main():
-    Acc1 = input("What is the account number? ")
-    Acc2 = input("What is the account number? ")
 
-    Account1 = Account_Info(Acc1)
-    Account2 = Account_Info(Acc2)
+    Accounts = [Account_Info(1), Account_Info(2), Account_Info(3), Account_Info(4), Account_Info(5)]
+    Accounts[0].Deposit(100)
 
-    Money = input("How much money would you like deposited? ")
-    Account1.Deposit(Money)
+    Accounts[1].Deposit(100)
 
-    Money = input("How much money would you like deposited? ")
-    Account2.Deposit(Money)
+    Accounts[2].Deposit(100)
+
+    Accounts[3].Deposit(100)
+
+    Accounts[4].Deposit(100)
+    
+
+    Money = float(input("How much money would you like deposited? "))
+    Accounts[0].Deposit(Money)
+
+    Money = float(input("How much money would you like deposited? "))
+    Accounts[1].Deposit(Money)
 
     while True:
-        funct = input("What would you like to do next (Withdraw or Deposit): ")
+        funct = input("What would you like to do next (Withdraw, Deposit, or Transfer): ")
 
         if funct == "Withdraw":
-            Money = input("how much withdraw: ")
-            print(Account1.Withdraw(Money))
+            Money = float(input("how much withdraw: "))
+            print(Accounts[0].Withdraw(Money))
         
         elif funct == "Deposit":
-            Money = input("how much deposit: ")
-            print(Account1.Deposit(Money))
+            Money = float(input("how much deposit: "))
+            print(Accounts[0].Deposit(Money))
+        
+        elif funct == "Transfer":
+            Money = float(input("how much transfer : "))
+            Acc = int(input("Which account tranfer: "))
+            if Acc < 5:
+                Accounts[0].Move_money(Money, Accounts[Acc])
+            else:
+                print("invalid")
+
+            
 
         else:
             print("Invalid option. Try again!")
 
         
-
 main()
 
