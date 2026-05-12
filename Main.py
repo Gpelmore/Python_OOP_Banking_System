@@ -34,7 +34,7 @@ def main():
             Money = float(input("how much transfer : "))
             Acc = int(input("Which account tranfer: "))
             if Acc < 5:
-                Accounts[0].Move_money(Money, Accounts[Acc])
+                print(Accounts[0].Move_money(Money, Accounts[Acc]))
             else:
                 print("invalid")
 
