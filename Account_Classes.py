@@ -5,11 +5,17 @@ class Account_Info:
         pass
 
     def Deposit(self, Amount):
+        if Amount <= 0
+            raise("Deposit amount must be positive!")
         current_balance = self.Bal_info
         self.Bal_info = current_balance + Amount
         return self.Bal_info
 
     def Withdraw(self, Amount):
+        if Amount <= 0:
+            raise("Withdraw amount must be positive!")
+        if Amount > self.Bal_info:
+            raise("Insufficient funds!")
         current_balance = self.Bal_info
         self.Bal_info = current_balance - Amount
         return self.Bal_info
@@ -23,11 +29,42 @@ class Account_Info:
         return self.Bal_info
 
 
-#class Checking(Account_Info):
-#
-#    def __init__():
+
+class Checking(Account_Info):
+    OVERDRAFT_LIM = 100
+
+    def __init__(self, Acc_num):
+        super().__init__(Acc_num)
+
+    def Withdraw(self, Amount):
+        if Amount <= 0:
+            raise("Withdraw amount must be positive")
+        if Amount > self.Bal_info + self.OVERDRAFT_LIM:
+            raise("Exceeds overdraft limit!")
+        current_balance = self.Bal_info
+        self.Bal_info = current_balance - Amount
+        return self.Bal_info
 
 
-#class Savings(Account_Info):
-#    def __init__
+
+class Savings(Account_Info):
+    INTEREST_RATE = 0.03
+
+    def __init__(self, Acc_num):
+        super().__init__(Acc_num)
+
+    def Withdraw(self, Amount):
+        if Amount <= 0:
+            raise("Withdraw amount must be positive")
+        if Amount > self.Bal_info:
+            raise("Insufficient funds")
+        current_balance = self.Bal_info
+        self.Bal_info = current_balance - Amount
+        return self.Bal_info
+    
+    def Interest(self):
+        interest = self.Bal_info * self.INTEREST_RATE
+        self.Bal_info = self.Bal_info + interest
+        return self.Bal_info
+
 
