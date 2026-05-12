@@ -40,9 +40,9 @@ class Checking(Account_Info):
 
     def Withdraw(self, Amount):
         if Amount <= 0:
-            raise("Withdraw amount must be positive")
+            raise ValueError("Withdraw amount must be positive")
         if Amount > self.Bal_info + self.OVERDRAFT_LIM:
-            raise("Exceeds overdraft limit!")
+            raise ValueError("Exceeds overdraft limit!")
         current_balance = self.Bal_info
         self.Bal_info = current_balance - Amount
         return self.Bal_info
@@ -57,9 +57,9 @@ class Savings(Account_Info):
 
     def Withdraw(self, Amount):
         if Amount <= 0:
-            raise("Withdraw amount must be positive")
+            raise ValueError("Withdraw amount must be positive")
         if Amount > self.Bal_info:
-            raise("Insufficient funds")
+            raise ValueError("Insufficient funds")
         current_balance = self.Bal_info
         self.Bal_info = current_balance - Amount
         return self.Bal_info
