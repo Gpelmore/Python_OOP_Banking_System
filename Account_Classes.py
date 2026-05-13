@@ -87,6 +87,8 @@ class Savings(Account_Info):
         self.Bal_info = self.Bal_info + interest
         return self.Bal_info
 
+#=========================================================================================================
+
 # Class to store the user's credentials and their list of accounts
 class user:
     def __init__(self, usern, hsh, slt, accounts):
