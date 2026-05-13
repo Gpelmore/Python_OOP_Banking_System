@@ -1,3 +1,6 @@
+import json
+
+
 class Account_Info:
     def __init__(self, Acc_num):
         self.Bal_info = 0
@@ -21,11 +24,18 @@ class Account_Info:
         return self.Bal_info
 
     def Move_money(self, Amount, Account_Target):
-        if Account_Target == self.Acc_num:
+        if Account_Target.Acc_num == self.Acc_num:
             raise ValueError("Cannot move money into the same account!")
         self.Withdraw(Amount)
         Account_Target.Deposit(Amount)
         return self.Bal_info
+
+    def To_dict(self):
+        return {
+            "type": type(self).__name__,
+            "id":   self.Acc_num,
+            "balance": self.Bal_info
+        }
 
     def Get_Bal(self):
         return self.Bal_info
@@ -70,3 +80,25 @@ class Savings(Account_Info):
         return self.Bal_info
 
 
+class user:
+    def __init__(self, usern, hsh, slt, accounts):
+        self.username = usern
+        self.salt = slt
+        self.hash = hsh
+        self.acct = accounts
+    
+    def to_dict(self):
+        return {
+            "username": self.username,
+            "hash":     self.hash,
+            "salt":     self.salt,
+            "acct":     [acc.To_dict() for acc in self.acct]
+        }
+        
+    def save_to_json(self):
+        filename = f"{self.username}_data.json"
+
+        with open(filename, "w") as f:
+            json.dump(self.to_dict(), f, indent = 4)
+            print(f"Data for {self.username} saved to {filename}")
+    

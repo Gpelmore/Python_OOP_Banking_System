@@ -76,40 +76,51 @@ def main():
                         break
                     
                     my_bank.Sesh_Refresh(token)
-                    
+
                     Accounts = session["Accounts"]
 
                     if funct == "Withdraw":
                         try:
-                            Money = float(input("how much withdraw: "))
-                            print("New balance: ", Accounts[0].Withdraw(Money))
+                            acc_idx = int(input("Enter the account index (e.g., 0 for Checking, 1 for Savings): "))
+                            if 0 <= acc_idx < len(Accounts):
+                                Money = float(input("Enter how much you would like to withdraw: "))
+                                print("New balance: $", Accounts[acc_idx].Withdraw(Money))
+                            else:
+                                print("Invalid account index.")
                         except ValueError as e:
                             print(f"Transaction failed: {e}")
 
 
                     elif funct == "Deposit":
                         try:
-                            Money = float(input("how much deposit: "))
-                            print("New balance: ", Accounts[0].Deposit(Money))
+                            acc_idx = int(input("Enter the account index (e.g., 0 for Checking, 1 for Savings): "))
+                            if 0 <= acc_idx < len(Accounts):
+                                Money = float(input("Enter how much you would like to deposit: "))
+                                print("New balance: $", Accounts[acc_idx].Deposit(Money))
+                            else:
+                                print("Invalid account index.")
                         except ValueError as e:
                             print(f"Transaction failed: {e}")
                     
 
                     elif funct == "Transfer":
                         try:
-                            Money = float(input("Enter how much you would like to transfer: "))
-                            Acc = int(input("Enter which account you would like to tranfer to: "))
-                            if Acc < len(Accounts):
-                                print("you have", Accounts[0].Move_money(Money, Accounts[Acc]), "remaining...")
+                            source_idx = int(input("Enter the account index to transfer FROM: "))
+                            target_idx = int(input("Enter the account index to transfer TO: "))
+                            
+                            if (0 <= source_idx < len(Accounts)) and (0 <= target_idx < len(Accounts)):
+                                Money = float(input("Enter how much you would like to transfer: "))
+                                # Move money from source to target
+                                remaining = Accounts[source_idx].Move_money(Money, Accounts[target_idx])
+                                print(f"Transfer successful. You have ${remaining} remaining in the source account.")
                             else:
-                                print("Invalid account number.")
+                                print("Invalid account index.")
                         except ValueError as e:
                             print(f"Transaction failed: {e}")
 
                     elif funct == "Logout":
                         my_bank.Logout(token)
                         logged_in = False
-
 
                     else:
                         print("Invalid option. Try again!")

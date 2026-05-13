@@ -1,0 +1,17 @@
+{
+    "username": "e",
+    "hash": "5cbfebebdbe9f3209ba612a276a580ae161fd843e9e86e526fa34548eb586233",
+    "salt": "7d1c31cb51827be08c774466a2c3c7ab",
+    "acct": [
+        {
+            "type": "Checking",
+            "id": 0,
+            "balance": 0
+        },
+        {
+            "type": "Savings",
+            "id": 1,
+            "balance": 0
+        }
+    ]
+}
