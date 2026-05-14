@@ -18,6 +18,7 @@ def main():
         start_menu = input("Select an option(1, 2, or 3): ")
 
         if start_menu == "1":
+
             print("\n---- Registration ----")
             
             username = input("Enter a username: ")
@@ -30,6 +31,7 @@ def main():
             my_bank.Register(username, password, new_accounts)
 
         elif start_menu == "2":
+
             print("\n---- Login ----")
             print("(Type 'cancel' at any time to return to the main menu)")
             
@@ -37,30 +39,37 @@ def main():
 
             # Keep asking for credentials until successful or canceled
             while token is None:
+
                 username = input("Username: ").strip()
                 if username.lower() == 'cancel':
+
                     break
             
                 password = input("Password: ").strip()
                 if password.lower() == 'cancel':
+
                     break
 
                 # Attempt to get a session token
                 token = my_bank.Login(username, password)
 
                 if not token:
+
                     print("Please try again.")
                     print("-" * 30)
 
             # If we successfully got a token, enter the secondary user menu loop
             if token:
+
                 logged_in = True
 
                 session = my_bank.Get_Session(token)
                 Account = session["Accounts"]
 
                 for acc in Account:
+
                     if isinstance(acc, Savings):
+
                         acc.catch_up_interest()
 
                         my_bank.users[username].save_to_json()
@@ -73,19 +82,23 @@ def main():
                     session = my_bank.Get_Session(token)
                     Accounts = session["Accounts"]
 
-                    print(f"\n---- Account Menu: {username} ----")
+                    print("\n" * 40)
+                    print(f"---- Account Menu: {username} ----")
 
                     print("Your Accounts:")
                     # Display all accounts and their balances
                     for i, acc in enumerate(Accounts):
+
                         acc_type = type(acc).__name__
                         print(f" [{i}] {acc_type} (ID: {acc.Acc_num}) - Balance: ${acc.Get_Bal():.2f}")
+
 
                     funct = input("What would you like to do next (Withdraw, Deposit, Transfer, or Logout): ")
 
                     # Double check session status before executing a transaction
                     session = my_bank.Get_Session(token)
                     if not session:
+
                         logged_in = False
                         break
                     
@@ -96,55 +109,83 @@ def main():
                     # Handle Withdrawal logic
                     if funct == "Withdraw":
                         try:
-                            acc_idx = int(input("Enter the account index (e.g., 0 for Checking, 1 for Savings): "))
+                            acc_idx = int(input("\nEnter the account index (e.g., 0 for Checking, 1 for Savings): "))#<----------------------------
+
                             # Validate the user picked a real account index
                             if 0 <= acc_idx < len(Accounts):
-                                Money = float(input("Enter how much you would like to withdraw: "))
-                                print("New balance: $", Accounts[acc_idx].Withdraw(Money))
+
+                                Money = float(input("\nEnter how much you would like to withdraw: "))#<----------------------------
+                                print("\nNew balance: $", Accounts[acc_idx].Withdraw(Money))#<----------------------------
+
+                                my_bank.users[username].save_to_json()
                             else:
-                                print("Invalid account index.")
+                                print("\nInvalid account index.")#<----------------------------
                         except ValueError as e:
-                            print(f"Transaction failed: {e}")
+                            print(f"\nTransaction failed: {e}")#<----------------------------
 
                     # Handle Deposit logic
                     elif funct == "Deposit":
                         try:
-                            acc_idx = int(input("Enter the account index (e.g., 0 for Checking, 1 for Savings): "))
+                            acc_idx = int(input("\nEnter the account index (e.g., 0 for Checking, 1 for Savings): "))#<----------------------------
                             if 0 <= acc_idx < len(Accounts):
-                                Money = float(input("Enter how much you would like to deposit: "))
-                                print("New balance: $", Accounts[acc_idx].Deposit(Money))
+
+                                Money = float(input("\nEnter how much you would like to deposit: "))#<----------------------------
+                                print("\nNew balance: $", Accounts[acc_idx].Deposit(Money))#<----------------------------
+
+                                my_bank.users[username].save_to_json()
+
+
                             else:
-                                print("Invalid account index.")
+
+                                print("\nInvalid account index.")#<----------------------------
+
+
                         except ValueError as e:
-                            print(f"Transaction failed: {e}")
+
+                            print(f"\nTransaction failed: {e}")#<----------------------------
                     
                     # Handle Transfer logic between two accounts
                     elif funct == "Transfer":
+
                         try:
-                            source_idx = int(input("Enter the account index to transfer FROM: "))
-                            target_idx = int(input("Enter the account index to transfer TO: "))
+
+                            source_idx = int(input("\nEnter the account index to transfer FROM: "))#<----------------------------
+                            target_idx = int(input("\nEnter the account index to transfer TO: "))#<----------------------------
                             
                             # Ensure both selected accounts exist
                             if (0 <= source_idx < len(Accounts)) and (0 <= target_idx < len(Accounts)):
-                                Money = float(input("Enter how much you would like to transfer: "))
+
+                                Money = float(input("\n\nEnter how much you would like to transfer: "))#<----------------------------
+
                                 # Move money from source to target
                                 remaining = Accounts[source_idx].Move_money(Money, Accounts[target_idx])
-                                print(f"Transfer successful. You have ${remaining} remaining in the source account.")
+
+                                print(f"\nTransfer successful. You have ${remaining} remaining in the source account.")#<----------------------------
+
+                                my_bank.users[username].save_to_json()
+
+
                             else:
-                                print("Invalid account index.")
+
+                                print("\nInvalid account index.")#<----------------------------
+
                         except ValueError as e:
-                            print(f"Transaction failed: {e}")
+
+                            print(f"\nTransaction failed: {e}")#<----------------------------
 
                     # Handle safe session destruction
                     elif funct == "Logout":
+
                         my_bank.Logout(token)
                         logged_in = False # Breaks the inner loop
 
                     else:
-                        print("Invalid option. Try again!")
+
+                        print("\nInvalid option. Try again!")#<----------------------------
 
         elif start_menu == '3':
-            print("Exiting the application...")
+
+            print("\nExiting the application...")#<----------------------------
             break # Breaks the outer main loop
 
 if __name__ == "__main__":
