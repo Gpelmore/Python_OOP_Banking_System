@@ -9,6 +9,7 @@ from Account_Classes import user
 from Account_Classes import Savings
 from Account_Classes import Checking
 
+
 # Hashes the password with a salt for secure storage
 def hash_PW(password: str, salt: str = None):
     # Generate a new salt if one isn't provided (e.g., during registration)
@@ -86,8 +87,10 @@ class Bank:
                         if a["type"] == "Checking":
                             acc_obj = Checking(a["id"])
                         else:
-                            acc_obj = Savings(a["id"])
-                        
+                            #acc_obj = Savings(a["id"])
+                            saved_time = a.get("last_interest_time", time.time())
+                            acc_obj = Savings(a["id"], last_interest_time = saved_time)
+
                         # Restore the saved balance
                         acc_obj.Bal_info = a["balance"]
                         rebuilt_accts.append(acc_obj)

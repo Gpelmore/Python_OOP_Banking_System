@@ -1,4 +1,6 @@
 import json
+import time
+from Interest import calc_catch_up
 
 # Base class for all types of bank accounts
 class Account_Info:
@@ -68,8 +70,9 @@ class Checking(Account_Info):
 class Savings(Account_Info):
     INTEREST_RATE = 0.03
 
-    def __init__(self, Acc_num):
+    def __init__(self, Acc_num, last_interest_time = None):
         super().__init__(Acc_num)
+        self.last_interest_time = last_interest_time or time.time()
 
     # Standard withdrawal (no overdraft allowed)
     def Withdraw(self, Amount):
@@ -82,10 +85,25 @@ class Savings(Account_Info):
         return self.Bal_info
     
     # Calculates and adds interest to the current balance
-    def Interest(self):
-        interest = self.Bal_info * self.INTEREST_RATE
-        self.Bal_info = self.Bal_info + interest
-        return self.Bal_info
+    def catch_up_interest(self):
+        new_bal,  new_time, days = calc_catch_up(
+            self.Bal_info,
+            self.INTEREST_RATE,
+            self.last_interest_time
+            )
+
+        if days > 0:
+            self.Bal_info = new_bal
+            self.last_interest_time = new_time
+            
+            print(f"[{days} day(s) of interest automatically applied to Savings!]")
+
+    def To_dict(self):
+
+        data = super().To_dict()
+        data["last_interest_time"] = self.last_interest_time
+        
+        return data
 
 #=========================================================================================================
 

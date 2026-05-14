@@ -1,0 +1,18 @@
+{
+    "username": "Gavin",
+    "hash": "c4d38a6f5e0ea46032ab3ab9fad972f9a950fab4acb0713a513d851cd50fbfab",
+    "salt": "42d391d59d5752e72937417d3718c4d2",
+    "acct": [
+        {
+            "type": "Checking",
+            "id": 0,
+            "balance": 0
+        },
+        {
+            "type": "Savings",
+            "id": 1,
+            "balance": 0.0,
+            "last_interest_time": 1778772964.1255155
+        }
+    ]
+}

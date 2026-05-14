@@ -56,6 +56,17 @@ def main():
             if token:
                 logged_in = True
 
+                session = my_bank.Get_Session(token)
+                Account = session["Accounts"]
+
+                for acc in Account:
+                    if isinstance(acc, Savings):
+                        acc.catch_up_interest()
+
+                        my_bank.users[username].save_to_json()
+
+
+
                 while logged_in:
 
                     # Fetch session to ensure it hasn't timed out
